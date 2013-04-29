@@ -32,7 +32,7 @@ block content
                 div.position(style="margin-bottom: 20px;border-color:black;border-width:10px;width:100%")
                   img(src="https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/" + url.addr,height="500px",width="500px",style="border-width: 2px;border-color: black;border-style: line;")
                   br
-                  input(name=url.voting,type="checkbox",checked=String(answers[url.voting]).indexOf(submission.name.split(' ')[0]) > -1)
+                  input(name=url.voting,type="checkbox",checked=answers[url.voting])
                   span(style="margin-left:10px") I totally dig the design above this checkbox!
       div(class="row",style="text-align:center")
         h2 What's your shirt size?

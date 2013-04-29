@@ -67,51 +67,6 @@ Array.prototype.randomize = function () {
   return this;
 };
 
-// function parseAnswerURLS(res){
-//   theList = [{
-//        'name' : 'Abe Kim','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'Abe-Kim-1'}]
-//     }, {
-//         'name' : 'Adela Wee', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'Adela-Wee-1'}]
-//     }, {
-//         'name' : 'Brett Rowley', 'urls' : [{'addr' : 'Brett%20Rowley/modern_o.png','voting' : "Brett-Rowley-1"}, {'addr':'Brett%20Rowley/msft.png','voting' : 'Brett-Rowley-2'}, {'addr':'Brett%20Rowley/text_fill.png','voting': 'Brett-Rowley-3'}]
-//     }, {
-//         'name' :'Colby Sato', 'urls' : [{ 'addr' :'Colby%20Sato/Full.PNG', 'voting' : 'Colby-Sato-1'}]
-//     }, {
-//         'name' :'Gracie Sanford', 'urls' : ['addr':'Gracie/olin2014.png','voting' : "Gracie-Sanford-1"]
-//     }, {
-//         'name' :'Helen Wang', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'Helen-Wang-1'}, {'addr':'Helen%20Wang/ClassLogo2.1.jpg','voting':'Helen-Wang-2'}, {'addr':'Helen%20Wang/ClassLogo2.jpg','voting':'Helen-Wang-3'}]
-//     }, {
-//         'name' :'Irene Hwang', 'urls' : [{'addr':'Irene%20Hwang/2014_logo_black.png','voting':'Irene-Hwang-1'},{'addr': 'Irene%20Hwang/2014_logo_white.png','voting':'Irene-Hwang-2'}]
-//     }, {
-//         'name' :'John Paton', 'urls' : [{'addr':'John%20Paton/Olin2014Shirt.jpg','voting':'John-Paton-1'},
-//          {'addr':'John%20Paton/Olin2014Shirt2.jpg','voting':'John-Paton-2'}
-//         , {'addr':'John%20Paton/Olin2014Shirt2-white.jpg','voting':'John-Paton-3'},
-//          {'addr':'John%20Paton/Olin2014Shirt3.jpg','voting':'John-Paton-4'}, {'addr':'John%20Paton/Olin2014ShirtMicrosoft.jpg','voting':'John-Paton-5'}]
-//     }, {
-//         'name' :'Lisa Park', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_1.JPG','voting':'Lisa-Park-1'}, 
-//         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'Lisa-Park-2'},
-//          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_3.JPG','voting':'Lisa-Park-3'}, 
-//          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_4.JPG','voting':'Lisa-Park-4'}, 
-//          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG','voting':'Lisa-Park-5'}]
-//     }, {
-//         'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/carlbailey.PNG','voting': 'Noam-Rubin-1'}, {'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
-//     }];
-//   theTranslator = {}
-//   for (var i = theList.length - 1; i >= 0; i--) {
-//     thePerson = theList[i];
-//     for (var j = thePerson.urls.length - 1; j >= 0; j--) {
-//       aUrl = thePerson.urls[j];
-//       theTranslator[aUrl.substring(aUrl.length-11,aUrl.length)] = thePerson.name.split(' ')[0] + "-" + j.toString();
-//     };
-//   };
-//   for(var k in res){
-//     if (k in theTranslator) {};
-//       res[theTranslator[k]] = res[k];
-//       delete res[k]
-//   }
-//   return res;
-// }
-
 function getSubmissions() {
     return [{
        'name' : 'Abe Kim','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'Abe-Kim-1'}]
@@ -143,127 +98,6 @@ function getSubmissions() {
     }];;
 }
 
-function getPositions () {
-  return {
-    'CORe': {
-      'President': [
-        {
-          name: 'Larissa Little'
-        }
-      ].randomize(),
-      'Vice President': [
-        {
-          name: 'Dan Kearney'
-        },
-      ].randomize(),
-      'Academic Director': [
-        {
-          name: 'Asa Eckert-Erdheim'
-        }
-      ].randomize(),
-      'Intercollegiate Ambassador': [
-        {
-          name: 'David James Pudlo'
-        }
-      ].randomize(),
-      'SEO Finance Minister': [
-        {
-          name: 'Kristoffer Groth'
-        }
-      ].randomize(),
-    },
-    'SAC': {
-      'Clubs Chair': [
-        {
-          name: 'Trevor Hooton'
-        }
-      ].randomize(),
-      'Activities Chair': [
-        {
-          name: 'Graham Hooton'
-        }
-      ].randomize(),
-    },
-    'SERV': {
-      'Chair': [
-        {
-          name: 'Ariana Chae'
-        }
-      ].randomize(),
-      'Vice-Chair': [
-        {
-          name: 'Daniel Leong'
-        }
-      ].randomize(),
-      'Manager of Finance and Records': [
-        {
-          name: 'Emily Guthrie'
-        },
-        {
-          name: 'Daniel Leong'
-        }
-      ].randomize(),
-      'General Members (3 elected now, 2 fall)': [
-        {
-          name: 'Amanda Sutherland'
-        },
-        {
-          name: 'Michael Searing'
-        },
-        {
-          name: 'Hayley Hansson'
-        },
-        {
-          name: 'Emily Guthrie'
-        }
-      ].randomize(),
-    },
-    'Honor Board': {
-      'Chair': [
-        {
-          name: 'Chris Joyce'
-        },
-        {
-          name: 'Adam Coppola'
-        },
-        {
-          name: 'Alex Kessler'
-        }
-      ].randomize(),
-      'Vice Chair': [
-        {
-          name: 'Chris Joyce'
-        },
-        {
-          name: 'Adam Coppola'
-        },
-        {
-          name: 'Alex Kessler'
-        }
-      ].randomize(),
-      'General Reps (4 elected now, 2 fall)': [
-        {
-          name: 'Chris Joyce'
-        },
-        {
-          name: 'Adam Coppola'
-        },
-        {
-          name: 'Alex Kessler'
-        },
-        {
-          name: 'Victoria Preston'
-        },
-        {
-          name: 'Shivam Desai'
-        },
-        {
-          name: 'Elizabeth Doyle'
-        }
-      ].randomize(),
-    }
-  }
-}
 
 app.get('/', function (req, res) {
   db.votes.findOne({
@@ -274,7 +108,6 @@ app.get('/', function (req, res) {
     res.render('index', {
       title: '2014 T-Shirt Contest',
       answers: vote ? vote.answers : {},
-      positions: getPositions(),
       user: olinapps.user(req),
       saved: 'success' in req.query,
       submissions: getSubmissions()
