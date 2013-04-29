@@ -26,7 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: app.get('secret'),
     store: new MongoStore({
-      url: process.env.MONGOLAB_URI || 'mongodb://localhost/olinapps-voting'
+      url: process.env.MONGOLAB_URI || 'mongodb://localhost/tshirt'
     })
   }));
   app.use(app.router);
@@ -66,6 +66,30 @@ Array.prototype.randomize = function () {
   this.sort(function (a, b) { return Math.random() - 0.5; })
   return this;
 };
+
+function getSubmissions() {
+    return [{
+       'name' : 'Abe Kim','urls': ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png']
+    }, {
+        'name' : 'Adela Wee', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Adela%20Wee/logo%20v1.jpg']
+    }, {
+        'name' : 'Brett Rowley', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Brett%20Rowley/modern_o.png', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Brett%20Rowley/msft.png', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Brett%20Rowley/text_fill.png']
+    }, {
+        'name' :'Colby Sato', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Colby%20Sato/Full.PNG']
+    }, {
+        'name' :'Gracie Sanford', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Gracie/olin2014.png']
+    }, {
+        'name' :'Helen Wang', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Helen%20Wang/ClassLogo1.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Helen%20Wang/ClassLogo2.1.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Helen%20Wang/ClassLogo2.jpg']
+    }, {
+        'name' :'Irene Hwang', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Irene%20Hwang/2014_logo_black.png', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Irene%20Hwang/2014_logo_white.png']
+    }, {
+        'name' :'John Paton', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt2.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt2-white.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt3.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014ShirtMicrosoft.jpg']
+    }, {
+        'name' :'Lisa Park', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_1.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_3.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_4.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG']
+    }, {
+        'name' :'Noam Rubin', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Noam%20Rubin/carlbailey.PNG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Noam%20Rubin/halffun.PNG']
+    }].randomize();
+}
 
 function getPositions () {
   return {
@@ -196,11 +220,12 @@ app.get('/', function (req, res) {
   }, function (err, vote) {
     console.log(err, vote);
     res.render('index', {
-      title: 'Olin Voting App',
+      title: '2014 T-Shirt Contest',
       answers: vote ? vote.answers : {},
       positions: getPositions(),
       user: olinapps.user(req),
-      saved: 'success' in req.query
+      saved: 'success' in req.query,
+      submissions: getSubmissions()
     });
   });
 });
