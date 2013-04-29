@@ -7,7 +7,7 @@ block content
     .uncheck { color: #bbb; } .uncheck:hover { color: #000; }
 
   div.header(style="text-align: center; max-width: 800px; margin: 15px auto; border: 1px solid #ccc; background: #eee; padding: 10px 15px; border-radius: 10px")
-    h1 Olin SEO Elections 2013
+    h1 Class of 2014 T Shirt Contest
     p(style="font-size: 16px") Pretty straightforward kids: excellence votings. And some questions about size and color (of the t-shirt).
     p(style="font-style: italic") 
       | You are logged in as 
@@ -18,25 +18,39 @@ block content
         | Logout?
 
   if saved
-    div.alert.alert-success(style="text-align: center") Your vote has been saved! You can recast it as often as you'd like before 10PM Wednesday, April 17th.
+    div.alert.alert-success(style="text-align: center") Your vote has been saved! You can recast it as often as you'd like before 10PM Friday, May 3rd.
   else
-    p(style="text-align: center") Cast your vote below. You can recast it as often as you'd like before 10PM Wednesday, April 17th.
+    p(style="text-align: center") Cast your vote below. You can recast it as often as you'd like before 10PM Friday, May 3rd.
 
   div.containers
     form(method='post')
       each submission in submissions
-        .row
+        div(class="row",style="text-align:center")
             h2 #{submission.name}
               br
               each url in submission.urls
-                div.span3
-                  img(src=String(url),width="600px",height="600px")
+                div.position(style="margin-bottom: 20px;border-color:black;border-width:10px;width:100%")
+                  img(src="https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/" + url.addr,height="500px",width="500px",style="border-width: 2px;border-color: black;border-style: line;")
+                  br
+                  input(name=url.voting,type="checkbox",checked=String(answers[url.voting]).indexOf(submission.name.split(' ')[0]) > -1)
+                  span(style="margin-left:10px") I totally dig the design above this checkbox!
+      div(class="row",style="text-align:center")
+        h2 What's your shirt size?
+        select(name="size")
+          option XS
+          option S
+          option M
+          option L
+          option XL
+      div(class="row",style="text-align:center")
+        h2 What color do you want the shirt in?
+        input(type="text",name="color")
         //- each seo, seoname in positions
         //-   div.span3
         //-     h2 #{seoname}
         //-     p
         //-     each pos, posname in seo
-        //-       div.position(style="margin-bottom: 20px")
+        //-       
         //-         h4= posname
         //-         each person in pos
         //-           label(style=(String(answers['vote-' + seoname + '-' + posname]).indexOf(person.name) > -1 ? "font-style: italic" : ""))
@@ -47,6 +61,6 @@ block content
               small(style="font-size: 10px; color: #999") When finished, scroll down and click "cast your vote".
                   
       div(style="text-align: center; margin-top: 20px")
-        button.btn.btn-success.btn-large.btn-primary(style="font-size: 30px; padding: 15px 30px", disabled) Cast Your Vote
+        button.btn.btn-success.btn-large.btn-primary(style="font-size: 30px; padding: 15px 30px", enabled) Cast Your Vote
 
     br

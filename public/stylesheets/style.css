@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+div.row{
+	text-align: center;
+}
+
+img {
+	border-width: 2px;
+	border-color: black;
+	border-style: line;
+}
+
+input{
+
+}

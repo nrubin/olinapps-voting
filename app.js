@@ -13,7 +13,7 @@ var express = require('express')
 var app = express(), db;
 
 app.configure(function () {
-  db = mongojs(process.env.MONGOLAB_URI || 'olinapps-voting', ['votes']);
+  db = mongojs(process.env.MONGOLAB_URI || 'tshirt', ['votes']);
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -67,28 +67,80 @@ Array.prototype.randomize = function () {
   return this;
 };
 
+// function parseAnswerURLS(res){
+//   theList = [{
+//        'name' : 'Abe Kim','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'Abe-Kim-1'}]
+//     }, {
+//         'name' : 'Adela Wee', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'Adela-Wee-1'}]
+//     }, {
+//         'name' : 'Brett Rowley', 'urls' : [{'addr' : 'Brett%20Rowley/modern_o.png','voting' : "Brett-Rowley-1"}, {'addr':'Brett%20Rowley/msft.png','voting' : 'Brett-Rowley-2'}, {'addr':'Brett%20Rowley/text_fill.png','voting': 'Brett-Rowley-3'}]
+//     }, {
+//         'name' :'Colby Sato', 'urls' : [{ 'addr' :'Colby%20Sato/Full.PNG', 'voting' : 'Colby-Sato-1'}]
+//     }, {
+//         'name' :'Gracie Sanford', 'urls' : ['addr':'Gracie/olin2014.png','voting' : "Gracie-Sanford-1"]
+//     }, {
+//         'name' :'Helen Wang', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'Helen-Wang-1'}, {'addr':'Helen%20Wang/ClassLogo2.1.jpg','voting':'Helen-Wang-2'}, {'addr':'Helen%20Wang/ClassLogo2.jpg','voting':'Helen-Wang-3'}]
+//     }, {
+//         'name' :'Irene Hwang', 'urls' : [{'addr':'Irene%20Hwang/2014_logo_black.png','voting':'Irene-Hwang-1'},{'addr': 'Irene%20Hwang/2014_logo_white.png','voting':'Irene-Hwang-2'}]
+//     }, {
+//         'name' :'John Paton', 'urls' : [{'addr':'John%20Paton/Olin2014Shirt.jpg','voting':'John-Paton-1'},
+//          {'addr':'John%20Paton/Olin2014Shirt2.jpg','voting':'John-Paton-2'}
+//         , {'addr':'John%20Paton/Olin2014Shirt2-white.jpg','voting':'John-Paton-3'},
+//          {'addr':'John%20Paton/Olin2014Shirt3.jpg','voting':'John-Paton-4'}, {'addr':'John%20Paton/Olin2014ShirtMicrosoft.jpg','voting':'John-Paton-5'}]
+//     }, {
+//         'name' :'Lisa Park', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_1.JPG','voting':'Lisa-Park-1'}, 
+//         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'Lisa-Park-2'},
+//          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_3.JPG','voting':'Lisa-Park-3'}, 
+//          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_4.JPG','voting':'Lisa-Park-4'}, 
+//          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG','voting':'Lisa-Park-5'}]
+//     }, {
+//         'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/carlbailey.PNG','voting': 'Noam-Rubin-1'}, {'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
+//     }];
+//   theTranslator = {}
+//   for (var i = theList.length - 1; i >= 0; i--) {
+//     thePerson = theList[i];
+//     for (var j = thePerson.urls.length - 1; j >= 0; j--) {
+//       aUrl = thePerson.urls[j];
+//       theTranslator[aUrl.substring(aUrl.length-11,aUrl.length)] = thePerson.name.split(' ')[0] + "-" + j.toString();
+//     };
+//   };
+//   for(var k in res){
+//     if (k in theTranslator) {};
+//       res[theTranslator[k]] = res[k];
+//       delete res[k]
+//   }
+//   return res;
+// }
+
 function getSubmissions() {
     return [{
-       'name' : 'Abe Kim','urls': ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png']
+       'name' : 'Abe Kim','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'Abe-Kim-1'}]
     }, {
-        'name' : 'Adela Wee', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Adela%20Wee/logo%20v1.jpg']
+        'name' : 'Adela Wee', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'Adela-Wee-1'}]
     }, {
-        'name' : 'Brett Rowley', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Brett%20Rowley/modern_o.png', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Brett%20Rowley/msft.png', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Brett%20Rowley/text_fill.png']
+        'name' : 'Brett Rowley', 'urls' : [{'addr' : 'Brett%20Rowley/modern_o.png','voting' : "Brett-Rowley-1"}, {'addr':'Brett%20Rowley/msft.png','voting' : 'Brett-Rowley-2'}, {'addr':'Brett%20Rowley/text_fill.png','voting': 'Brett-Rowley-3'}]
     }, {
-        'name' :'Colby Sato', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Colby%20Sato/Full.PNG']
+        'name' :'Colby Sato', 'urls' : [{ 'addr' :'Colby%20Sato/Full.PNG', 'voting' : 'Colby-Sato-1'}]
     }, {
-        'name' :'Gracie Sanford', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Gracie/olin2014.png']
+        'name' :'Gracie Sanford', 'urls' : [{'addr':'Gracie/olin2014.png','voting' : "Gracie-Sanford-1"}]
     }, {
-        'name' :'Helen Wang', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Helen%20Wang/ClassLogo1.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Helen%20Wang/ClassLogo2.1.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Helen%20Wang/ClassLogo2.jpg']
+        'name' :'Helen Wang', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'Helen-Wang-1'}, {'addr':'Helen%20Wang/ClassLogo2.1.jpg','voting':'Helen-Wang-2'}, {'addr':'Helen%20Wang/ClassLogo2.jpg','voting':'Helen-Wang-3'}]
     }, {
-        'name' :'Irene Hwang', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Irene%20Hwang/2014_logo_black.png', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Irene%20Hwang/2014_logo_white.png']
+        'name' :'Irene Hwang', 'urls' : [{'addr':'Irene%20Hwang/2014_logo_black.png','voting':'Irene-Hwang-1'},{'addr': 'Irene%20Hwang/2014_logo_white.png','voting':'Irene-Hwang-2'}]
     }, {
-        'name' :'John Paton', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt2.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt2-white.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014Shirt3.jpg', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/John%20Paton/Olin2014ShirtMicrosoft.jpg']
+        'name' :'John Paton', 'urls' : [{'addr':'John%20Paton/Olin2014Shirt.jpg','voting':'John-Paton-1'},
+         {'addr':'John%20Paton/Olin2014Shirt2.jpg','voting':'John-Paton-2'}
+        , {'addr':'John%20Paton/Olin2014Shirt2-white.jpg','voting':'John-Paton-3'},
+         {'addr':'John%20Paton/Olin2014Shirt3.jpg','voting':'John-Paton-4'}, {'addr':'John%20Paton/Olin2014ShirtMicrosoft.jpg','voting':'John-Paton-5'}]
     }, {
-        'name' :'Lisa Park', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_1.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_3.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_4.JPG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG']
+        'name' :'Lisa Park', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_1.JPG','voting':'Lisa-Park-1'}, 
+        {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'Lisa-Park-2'},
+         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_3.JPG','voting':'Lisa-Park-3'}, 
+         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_4.JPG','voting':'Lisa-Park-4'}, 
+         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG','voting':'Lisa-Park-5'}]
     }, {
-        'name' :'Noam Rubin', 'urls' : ['https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Noam%20Rubin/carlbailey.PNG', 'https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/Noam%20Rubin/halffun.PNG']
-    }].randomize();
+        'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/carlbailey.PNG','voting': 'Noam-Rubin-1'}, {'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
+    }];;
 }
 
 function getPositions () {
@@ -231,7 +283,8 @@ app.get('/', function (req, res) {
 });
 
 app.post('/', function (req, res) {
-  console.log(req.body);
+  console.log("the body is");
+  console.log(req.body)
   db.votes.update({
     student: olinapps.user(req).id,
     year: 2013
