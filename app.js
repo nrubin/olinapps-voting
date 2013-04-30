@@ -13,7 +13,7 @@ var express = require('express')
 var app = express(), db;
 
 app.configure(function () {
-  db = mongojs(process.env.MONGOLAB_URI || 'tshirt', ['votes']);
+  db = mongojs(process.env.MONGOLAB_URI || 'tshirt', ['tshirt']);
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -39,7 +39,7 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.set('host', 'voting.olinapps.com');
+  app.set('host', 'classof2014tshirt.herokuapp.com/');
 });
 
 /**
@@ -95,12 +95,12 @@ function getSubmissions() {
          {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG','voting':'Lisa-Park-5'}]
     }, {
         'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/carlbailey.PNG','voting': 'Noam-Rubin-1'}, {'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
-    }];;
+    }].randomize();
 }
 
 
 app.get('/', function (req, res) {
-  db.votes.findOne({
+  db.tshirt.findOne({
     student: olinapps.user(req).id,
     year: 2013
   }, function (err, vote) {
@@ -117,8 +117,10 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
   console.log("the body is");
-  console.log(req.body)
-  db.votes.update({
+  console.log(req.body);
+  selectMapping = {'XS':'0','S':'1','M':'2','L':'3','XL':'4'};
+  req.body['sizeIndex'] = selectMapping[req.body['size']];
+  db.tshirt.update({
     student: olinapps.user(req).id,
     year: 2013
   }, {
@@ -130,21 +132,21 @@ app.post('/', function (req, res) {
     upsert: true
   }, function (err, u) {
     console.log('>>>', err, u);
-    db.votes.find(function () { console.log(arguments); });
+    db.tshirt.find(function () { console.log(arguments); });
     res.redirect('/?success');
   });
 })
 
 app.get('/SECRETRESULTLINKRAW', function (req, res) {
-  db.votes.find(function (err, votes) {
-    res.json(votes);
+  db.tshirt.find(function (err, tshirt) {
+    res.json(tshirt);
   });
 });
 
 app.get('/SECRETRESULTLINK', function (req, res) {
   var poshash = {};
-  db.votes.find(function (err, votes) {
-    votes.forEach(function (vote) {
+  db.tshirt.find(function (err, tshirt) {
+    tshirt.forEach(function (vote) {
       Object.keys(vote.answers).forEach(function (pos) {
         poshash[pos] || (poshash[pos] = {});
         (Array.isArray(vote.answers[pos]) ? vote.answers[pos] : [vote.answers[pos]]).forEach(function (name) {
