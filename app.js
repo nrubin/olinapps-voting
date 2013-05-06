@@ -13,7 +13,7 @@ var express = require('express')
 var app = express(), db;
 
 app.configure(function () {
-  db = mongojs(process.env.MONGOLAB_URI || 'tshirt', ['tshirt']);
+  db = mongojs(process.env.MONGOLAB_URI || 'runoff', ['runoff']);
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -26,7 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: app.get('secret'),
     store: new MongoStore({
-      url: process.env.MONGOLAB_URI || 'mongodb://localhost/tshirt'
+      url: process.env.MONGOLAB_URI || 'mongodb://localhost/runoff'
     })
   }));
   app.use(app.router);
@@ -39,7 +39,7 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.set('host', 'classof2014tshirt.herokuapp.com/');
+  app.set('host', 'classof2014runoff.herokuapp.com/');
 });
 
 /**
@@ -53,7 +53,7 @@ app.all('/*', olinapps.loginRequired);
 
 app.all('/*', function (req, res, next) {
   if (olinapps.user(req).domain != 'students.olin.edu') {
-    return res.send('<h1>Students only.</h1> <p>Sorry, this application is closed to non-students. Please apply for next candidates\' weekend!</p>');
+    return res.send('<h1>Students only.  </h1> <p>Sorry, this application is closed to non-students. Please apply for next candidates\' weekend!</p>');
   }
   next();
 })
@@ -73,34 +73,17 @@ function getSubmissions() {
     }, {
         'name' : 'Adela Wee', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'Adela-Wee-1'}]
     }, {
-        'name' : 'Brett Rowley', 'urls' : [{'addr' : 'Brett%20Rowley/modern_o.png','voting' : "Brett-Rowley-1"}, {'addr':'Brett%20Rowley/msft.png','voting' : 'Brett-Rowley-2'}, {'addr':'Brett%20Rowley/text_fill.png','voting': 'Brett-Rowley-3'}]
+        'name' :'Helen Wang', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'Helen-Wang-1'}]
+    },  {
+       'name' :'Lisa Park', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'Lisa-Park-2'}]
     }, {
-        'name' :'Colby Sato', 'urls' : [{ 'addr' :'Colby%20Sato/Full.PNG', 'voting' : 'Colby-Sato-1'}]
-    }, {
-        'name' :'Gracie Sanford', 'urls' : [{'addr':'Gracie/olin2014.png','voting' : "Gracie-Sanford-1"}]
-    }, {
-        'name' :'Helen Wang', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'Helen-Wang-1'}, {'addr':'Helen%20Wang/ClassLogo2.1.jpg','voting':'Helen-Wang-2'}, {'addr':'Helen%20Wang/ClassLogo2.jpg','voting':'Helen-Wang-3'}]
-    }, {
-        'name' :'Irene Hwang', 'urls' : [{'addr':'Irene%20Hwang/2014_logo_black.png','voting':'Irene-Hwang-1'},{'addr': 'Irene%20Hwang/2014_logo_white.png','voting':'Irene-Hwang-2'}]
-    }, {
-        'name' :'John Paton', 'urls' : [{'addr':'John%20Paton/Olin2014Shirt.jpg','voting':'John-Paton-1'},
-         {'addr':'John%20Paton/Olin2014Shirt2.jpg','voting':'John-Paton-2'}
-        , {'addr':'John%20Paton/Olin2014Shirt2-white.jpg','voting':'John-Paton-3'},
-         {'addr':'John%20Paton/Olin2014Shirt3.jpg','voting':'John-Paton-4'}, {'addr':'John%20Paton/Olin2014ShirtMicrosoft.jpg','voting':'John-Paton-5'}]
-    }, {
-        'name' :'Lisa Park', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_1.JPG','voting':'Lisa-Park-1'}, 
-        {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'Lisa-Park-2'},
-         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_3.JPG','voting':'Lisa-Park-3'}, 
-         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_4.JPG','voting':'Lisa-Park-4'}, 
-         {'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_5.JPG','voting':'Lisa-Park-5'}]
-    }, {
-        'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/carlbailey.PNG','voting': 'Noam-Rubin-1'}, {'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
+        'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
     }].randomize();
 }
 
 
 app.get('/', function (req, res) {
-  db.tshirt.findOne({
+  db.runoff.findOne({
     student: olinapps.user(req).id,
     year: 2013
   }, function (err, vote) {
@@ -120,7 +103,7 @@ app.post('/', function (req, res) {
   console.log(req.body);
   selectMapping = {'XS':'0','S':'1','M':'2','L':'3','XL':'4'};
   req.body['sizeIndex'] = selectMapping[req.body['size']];
-  db.tshirt.update({
+  db.runoff.update({
     student: olinapps.user(req).id,
     year: 2013
   }, {
@@ -132,21 +115,21 @@ app.post('/', function (req, res) {
     upsert: true
   }, function (err, u) {
     console.log('>>>', err, u);
-    db.tshirt.find(function () { console.log(arguments); });
+    db.runoff.find(function () { console.log(arguments); });
     res.redirect('/?success');
   });
 })
 
 app.get('/SECRETRESULTLINKRAW', function (req, res) {
-  db.tshirt.find(function (err, tshirt) {
-    res.json(tshirt);
+  db.runoff.find(function (err, runoff) {
+    res.json(runoff);
   });
 });
 
 app.get('/SECRETRESULTLINK', function (req, res) {
   var poshash = {};
-  db.tshirt.find(function (err, tshirt) {
-    tshirt.forEach(function (vote) {
+  db.runoff.find(function (err, runoff) {
+    runoff.forEach(function (vote) {
       Object.keys(vote.answers).forEach(function (pos) {
         poshash[pos] || (poshash[pos] = {});
         (Array.isArray(vote.answers[pos]) ? vote.answers[pos] : [vote.answers[pos]]).forEach(function (name) {
