@@ -13,7 +13,7 @@ var express = require('express')
 var app = express(), db;
 
 app.configure(function () {
-  db = mongojs(process.env.MONGOLAB_URI || 'runoff', ['runoff']);
+  db = mongojs(process.env.MONGOLAB_URI || 'core2017', ['core2017']);
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -26,7 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: app.get('secret'),
     store: new MongoStore({
-      url: process.env.MONGOLAB_URI || 'mongodb://localhost/runoff'
+      url: process.env.MONGOLAB_URI || 'mongodb://localhost/core2017'
     })
   }));
   app.use(app.router);
@@ -39,7 +39,7 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.set('host', 'classof2014runoff.herokuapp.com/');
+  app.set('host', 'coreelections2017.herokuapp.com/');
 });
 
 /**
@@ -67,33 +67,33 @@ Array.prototype.randomize = function () {
   return this;
 };
 
-function getSubmissions() {
+function getcandidates() {
     return [{
-       'name' : 'Abe Kim','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'Abe-Kim-1'}]
+       'name' : 'C1','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'C1'}]
     }, {
-        'name' : 'Adela Wee', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'Adela-Wee-1'}]
+        'name' : 'C2', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'C2'}]
     }, {
-        'name' :'Helen Wang', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'Helen-Wang-1'}]
+        'name' :'C3', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'C3'}]
     },  {
-       'name' :'Lisa Park', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'Lisa-Park-2'}]
+       'name' :'C4', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'C4'}]
     }, {
-        'name' :'Noam Rubin', 'urls' : [{'addr':'Noam%20Rubin/halffun.PNG','voting': 'Noam-Rubin-2'}]
+        'name' :'C5', 'urls' : [{'addr':'Noam%20Rubin/halffun.PNG','voting': 'C5'}]
     }].randomize();
 }
 
 
 app.get('/', function (req, res) {
-  db.runoff.findOne({
+  db.core2017.findOne({
     student: olinapps.user(req).id,
     year: 2013
   }, function (err, vote) {
     console.log(err, vote);
     res.render('index', {
-      title: '2014 T-Shirt Contest',
+      title: 'Class of 2017 CORe Elections',
       answers: vote ? vote.answers : {},
       user: olinapps.user(req),
       saved: 'success' in req.query,
-      submissions: getSubmissions()
+      candidates: getcandidates()
     });
   });
 });
@@ -101,9 +101,9 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
   console.log("the body is");
   console.log(req.body);
-  selectMapping = {'XS':'0','S':'1','M':'2','L':'3','XL':'4'};
-  req.body['sizeIndex'] = selectMapping[req.body['size']];
-  db.runoff.update({
+  // selectMapping = {'XS':'0','S':'1','M':'2','L':'3','XL':'4'};
+  // req.body['sizeIndex'] = selectMapping[req.body['size']];
+  db.core2017.update({
     student: olinapps.user(req).id,
     year: 2013
   }, {
@@ -115,21 +115,21 @@ app.post('/', function (req, res) {
     upsert: true
   }, function (err, u) {
     console.log('>>>', err, u);
-    db.runoff.find(function () { console.log(arguments); });
+    db.core2017.find(function () { console.log(arguments); });
     res.redirect('/?success');
   });
 })
 
 app.get('/SECRETRESULTLINKRAW', function (req, res) {
-  db.runoff.find(function (err, runoff) {
-    res.json(runoff);
+  db.core2017.find(function (err, core2017) {
+    res.json(core2017);
   });
 });
 
 app.get('/SECRETRESULTLINK', function (req, res) {
   var poshash = {};
-  db.runoff.find(function (err, runoff) {
-    runoff.forEach(function (vote) {
+  db.core2017.find(function (err, core2017) {
+    core2017.forEach(function (vote) {
       Object.keys(vote.answers).forEach(function (pos) {
         poshash[pos] || (poshash[pos] = {});
         (Array.isArray(vote.answers[pos]) ? vote.answers[pos] : [vote.answers[pos]]).forEach(function (name) {

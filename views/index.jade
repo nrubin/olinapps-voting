@@ -7,8 +7,8 @@ block content
     .uncheck { color: #bbb; } .uncheck:hover { color: #000; }
 
   div.header(style="text-align: center; max-width: 800px; margin: 15px auto; border: 1px solid #ccc; background: #eee; padding: 10px 15px; border-radius: 10px")
-    h1 Class of 2014 T Shirt Contest Runoff
-    p(style="font-size: 16px") Runoff time! Excellence voting again. Ties this round get decided by a committee headed by Matt Reilly, Rachel Gebhart and Carl Bailey.
+    h1 Class of 2017 CORe Elections
+    p(style="font-size: 16px") Vote for your CORe Reps! Vote for as many candidates as you want.
     p(style="font-style: italic") 
       | You are logged in as 
       b
@@ -18,22 +18,21 @@ block content
         | Logout?
 
   if saved
-    div.alert.alert-success(style="text-align: center") Your vote has been saved! You can recast it as often as you'd like before 11:59 PM Monday, May 6.
+    div.alert.alert-success(style="text-align: center") Your vote has been saved! You can recast it as often as you'd like before !!time!!.
   else
-    p(style="text-align: center") Cast your vote below. You can recast it as often as you'd like before 11:59 PM Monday, May 6.
+    p(style="text-align: center") Cast your vote below. You can recast it as often as you'd like before !!time!!.
 
   div.containers
+    div(class="row")
     form(method='post')
-      each submission in submissions
-        div(class="row",style="text-align:center")
-            h2 #{submission.name}
+      each candidate in candidates
+          div(class="span3",style="margin-left:50px;")
+            h2 #{candidate.name}
               br
-              each url in submission.urls
+              each url in candidate.urls
                 div.position(style="margin-bottom: 20px;border-color:black;border-width:10px;width:100%")
-                  img(src="https://dl.dropboxusercontent.com/u/11830885/2014%20T-shirt%20Contest/" + url.addr,height="500px",width="500px",style="border-width: 2px;border-color: black;border-style: line;")
                   br
                   input(name=url.voting,type="checkbox",checked=answers[url.voting])
-                  span(style="margin-left:10px") I totally dig the design above this checkbox!
       //- div(class="row",style="text-align:center")
       //-   h2 What's your shirt size (e.g., XS, S, M, L, XL) ?
       //-   input(type="text",name="size",value=answers["size"])
@@ -54,7 +53,7 @@ block content
 
             p(style="margin-top: 10px; line-height: 14px")
               small(style="font-size: 10px; color: #999") When finished, scroll down and click "cast your vote".
-                  
+      div(class="row")    
       div(style="text-align: center; margin-top: 20px")
         button.btn.btn-success.btn-large.btn-primary(style="font-size: 30px; padding: 15px 30px", enabled) Cast Your Vote
 
