@@ -69,15 +69,16 @@ Array.prototype.randomize = function () {
 
 function getcandidates() {
     return [{
-       'name' : 'C1','urls': [{'addr': 'Abe%20Kim/Class%20Of%20Swag%20%28Class%20of%202014%29.png','voting': 'C1'}]
+        'name' : 'Pinar', 'urls' : {'addr': 'https://dl.dropboxusercontent.com/u/11830885/pinar.PNG','voting': 'pinar'}
     }, {
-        'name' : 'C2', 'urls' : [{'addr': 'Adela%20Wee/logo%20v1.jpg','voting': 'C2'}]
-    }, {
-        'name' :'C3', 'urls' : [{'addr':'Helen%20Wang/ClassLogo1.jpg','voting':'C3'}]
+        'name' :'Chris', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Chris.PNG','voting':'chris'}
     },  {
-       'name' :'C4', 'urls' : [{'addr':'Lisa%20Park%20-%20Just%20sketches/Phoenix_2.JPG','voting':'C4'}]
+       'name' :'Aditi', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Aditi.PNG','voting':'aditi'}
     }, {
-        'name' :'C5', 'urls' : [{'addr':'Noam%20Rubin/halffun.PNG','voting': 'C5'}]
+        'name' :'Ian', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Ian.PNG','voting': 'ian'}
+    },
+    {
+        'name' :'Philip', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
     }].randomize();
 }
 
