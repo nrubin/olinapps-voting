@@ -39,7 +39,7 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.set('host', 'olin-elections.herokuapp.com/');
+  app.set('host', 'core-elections-2013.herokuapp.com/');
 });
 
 /**
