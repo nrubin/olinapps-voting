@@ -13,7 +13,7 @@ var express = require('express')
 var app = express(), db;
 
 app.configure(function () {
-  db = mongojs(process.env.MONGOLAB_URI || 'hb2017', ['hb2017']);
+  db = mongojs(process.env.MONGOLAB_URI || 'olin2013', ['olin2013']);
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -26,7 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: app.get('secret'),
     store: new MongoStore({
-      url: process.env.MONGOLAB_URI || 'mongodb://localhost/hb2017'
+      url: process.env.MONGOLAB_URI || 'mongodb://localhost/olin2013'
     })
   }));
   app.use(app.router);
@@ -39,7 +39,7 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.set('host', 'hb-elections-2017.herokuapp.com/');
+  app.set('host', 'holin-elections.herokuapp.com/');
 });
 
 /**
@@ -67,30 +67,57 @@ Array.prototype.randomize = function () {
   return this;
 };
 
-function getcandidates() {
+function gethbcandidates() {
     return [{
-        'name' : 'Pinar', 'urls' : {'addr': 'https://dl.dropboxusercontent.com/u/11830885/pinar.PNG','voting': 'pinar'}
+       'name' :'Kelly', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/kelly.PNG','voting':'kelly-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/kelly.txt'}
+    },
+    {
+        'name' : 'Pinar', 'urls' : {'addr': 'https://dl.dropboxusercontent.com/u/11830885/pinar.PNG','voting': 'pinar-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/pinar.txt'}
     }, {
-        'name' :'Cecelia', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Chris.PNG','voting':'chris'}
-    },  {
-       'name' :'Kelly', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Aditi.PNG','voting':'aditi'}
+        'name' :'Cecelia', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/cecelia.PNG','voting':'cecelia-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/cecelia.txt'}
     }, {
-        'name' :'Cynthia (Yun-Hsin)', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Ian.PNG','voting': 'ian'}
+        'name' :'Cynthia (Yun-Hsin)', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/yunhsin.PNG','voting': 'cynthia-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/cynthia.txt'}
     },
     {
-        'name' :'Greg', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
+        'name' :'Greg', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/gregelston.PNG','voting': 'greg-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/greg.txt'}
     },
     {
-        'name' :'Luke', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
+        'name' :'Luke', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Luke.PNG','voting': 'luke-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/luke.txt'}
     },
     {
-        'name' :'Charlie', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
-    }].randomize();
+        'name' :'Charlie', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Charlie.PNG','voting': 'charlie-hb','answers':'https://dl.dropboxusercontent.com/u/11830885/hb-txt/charlie.txt'}
+    }];
+}
+
+function getservcandidates() {
+    return [{
+        'name' : 'Pinar', 'urls' : {'addr': 'https://dl.dropboxusercontent.com/u/11830885/pinar.PNG','voting': 'pinar-serv'}
+    }, {
+        'name' :'Philip', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting':'filip-serv'}
+    }, 
+    {
+        'name' :'Jay', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/jay.PNG','voting': 'jay-serv'}
+    }, 
+    {
+        'name' :'Jennifer', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/jennifer.PNG','voting': 'jennifer-serv'}
+    },
+    {
+       'name' :'Madeleine', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/madeleine.PNG','voting':'madeleine-serv'}
+    },
+    {
+        'name' :'Juanita', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/juanita.PNG','voting': 'juanita-serv'}
+    },
+    {
+        'name' :'Halley', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/halley.PNG','voting': 'halley-serv'}
+    },
+    {
+        'name' :'Shrinidhi', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/shrinidi.PNG','voting': 'shrinidhi-serv'}
+    }];
 }
 
 
 app.get('/', function (req, res) {
-  db.hb2017.findOne({
+  db.olin2013.findOne({
     student: olinapps.user(req).id,
     year: 2013
   }, function (err, vote) {
@@ -100,7 +127,8 @@ app.get('/', function (req, res) {
       answers: vote ? vote.answers : {},
       user: olinapps.user(req),
       saved: 'success' in req.query,
-      candidates: getcandidates()
+      hbcandidates: gethbcandidates(),
+      servcandidates: getservcandidates()
     });
   });
 });
@@ -110,7 +138,7 @@ app.post('/', function (req, res) {
   console.log(req.body);
   // selectMapping = {'XS':'0','S':'1','M':'2','L':'3','XL':'4'};
   // req.body['sizeIndex'] = selectMapping[req.body['size']];
-  db.hb2017.update({
+  db.olin2013.update({
     student: olinapps.user(req).id,
     year: 2013
   }, {
@@ -122,21 +150,21 @@ app.post('/', function (req, res) {
     upsert: true
   }, function (err, u) {
     console.log('>>>', err, u);
-    db.hb2017.find(function () { console.log(arguments); });
+    db.olin2013.find(function () { console.log(arguments); });
     res.redirect('/?success');
   });
 })
 
 app.get('/SECRETRESULTLINKRAW', function (req, res) {
-  db.hb2017.find(function (err, hb2017) {
-    res.json(hb2017);
+  db.olin2013.find(function (err, olin2013) {
+    res.json(olin2013);
   });
 });
 
 app.get('/SECRETRESULTLINK', function (req, res) {
   var poshash = {};
-  db.hb2017.find(function (err, hb2017) {
-    hb2017.forEach(function (vote) {
+  db.olin2013.find(function (err, olin2013) {
+    olin2013.forEach(function (vote) {
       Object.keys(vote.answers).forEach(function (pos) {
         poshash[pos] || (poshash[pos] = {});
         (Array.isArray(vote.answers[pos]) ? vote.answers[pos] : [vote.answers[pos]]).forEach(function (name) {
