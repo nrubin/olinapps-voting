@@ -13,7 +13,7 @@ var express = require('express')
 var app = express(), db;
 
 app.configure(function () {
-  db = mongojs(process.env.MONGOLAB_URI || 'core2017', ['core2017']);
+  db = mongojs(process.env.MONGOLAB_URI || 'hb2017', ['hb2017']);
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -26,7 +26,7 @@ app.configure(function () {
   app.use(express.session({
     secret: app.get('secret'),
     store: new MongoStore({
-      url: process.env.MONGOLAB_URI || 'mongodb://localhost/core2017'
+      url: process.env.MONGOLAB_URI || 'mongodb://localhost/hb2017'
     })
   }));
   app.use(app.router);
@@ -39,7 +39,7 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.set('host', 'coreelections2017.herokuapp.com/');
+  app.set('host', 'hb-elections-2017.herokuapp.com/');
 });
 
 /**
@@ -71,20 +71,26 @@ function getcandidates() {
     return [{
         'name' : 'Pinar', 'urls' : {'addr': 'https://dl.dropboxusercontent.com/u/11830885/pinar.PNG','voting': 'pinar'}
     }, {
-        'name' :'Chris', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Chris.PNG','voting':'chris'}
+        'name' :'Cecelia', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Chris.PNG','voting':'chris'}
     },  {
-       'name' :'Aditi', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Aditi.PNG','voting':'aditi'}
+       'name' :'Kelly', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Aditi.PNG','voting':'aditi'}
     }, {
-        'name' :'Ian', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Ian.PNG','voting': 'ian'}
+        'name' :'Cynthia (Yun-Hsin)', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Ian.PNG','voting': 'ian'}
     },
     {
-        'name' :'Philip', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
+        'name' :'Greg', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
+    },
+    {
+        'name' :'Luke', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
+    },
+    {
+        'name' :'Charlie', 'urls' : {'addr':'https://dl.dropboxusercontent.com/u/11830885/Filip.PNG','voting': 'filip'}
     }].randomize();
 }
 
 
 app.get('/', function (req, res) {
-  db.core2017.findOne({
+  db.hb2017.findOne({
     student: olinapps.user(req).id,
     year: 2013
   }, function (err, vote) {
@@ -104,7 +110,7 @@ app.post('/', function (req, res) {
   console.log(req.body);
   // selectMapping = {'XS':'0','S':'1','M':'2','L':'3','XL':'4'};
   // req.body['sizeIndex'] = selectMapping[req.body['size']];
-  db.core2017.update({
+  db.hb2017.update({
     student: olinapps.user(req).id,
     year: 2013
   }, {
@@ -116,21 +122,21 @@ app.post('/', function (req, res) {
     upsert: true
   }, function (err, u) {
     console.log('>>>', err, u);
-    db.core2017.find(function () { console.log(arguments); });
+    db.hb2017.find(function () { console.log(arguments); });
     res.redirect('/?success');
   });
 })
 
 app.get('/SECRETRESULTLINKRAW', function (req, res) {
-  db.core2017.find(function (err, core2017) {
-    res.json(core2017);
+  db.hb2017.find(function (err, hb2017) {
+    res.json(hb2017);
   });
 });
 
 app.get('/SECRETRESULTLINK', function (req, res) {
   var poshash = {};
-  db.core2017.find(function (err, core2017) {
-    core2017.forEach(function (vote) {
+  db.hb2017.find(function (err, hb2017) {
+    hb2017.forEach(function (vote) {
       Object.keys(vote.answers).forEach(function (pos) {
         poshash[pos] || (poshash[pos] = {});
         (Array.isArray(vote.answers[pos]) ? vote.answers[pos] : [vote.answers[pos]]).forEach(function (name) {
